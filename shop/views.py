@@ -67,7 +67,7 @@ def cart_detail(request, counter=0, total=0, card_id=None):
         cart_items = CartItem.objects.filter(cart=cart,
                                              active=True)
         for cart_item in cart_items:  # Count sum and amount of product
-            total += cart_item.sub_total()
+            total += cart_item.product.price * cart_item.quantity
             counter += cart_item.quantity
     except ObjectDoesNotExist:
         pass

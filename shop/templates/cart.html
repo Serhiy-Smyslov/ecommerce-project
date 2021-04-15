@@ -39,7 +39,7 @@
                     {% for cart_item in cart_items %}
                     <tr>
                         <td>
-                            <a href="#">
+                            <a href="{{cart_item.product.get_url}}">
                                 <img src="{{cart_item.product.image.url}}"
                                      alt="{{cart_item.product.name}}" width="120" height="120">
                             </a>

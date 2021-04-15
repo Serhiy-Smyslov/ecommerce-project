@@ -3,7 +3,7 @@ from .models import Category, Product, Cart, CartItem
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from .formes import SingUpForm
 
 
@@ -124,3 +124,30 @@ def sing_up_view(request):
     else:
         form = SingUpForm()
     return render(request, 'singup.html', {'form': form})
+
+
+def login_view(request):
+    """Login user in system."""
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username,
+                                password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                return redirect('sing_up')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {
+        'form': form,
+    })
+
+
+def singout_view(request):
+    """Sing out user from system."""
+    logout(request)
+    return redirect('log_in')

@@ -14,7 +14,6 @@
         <h1 class="text-center product-title">
             Your cart is empty
         </h1>
-        <br>
         <p class="text-center">
             Click <a href="{% url 'home' %}">here</a> to go back products
         </p>
@@ -57,18 +56,13 @@
                         <td>
                             ${{cart_item.sub_total}}
                         </td>
-                        {% if cart_item.quantity < cart_item.product.stock %}
                         <td>
+                            {% if cart_item.quantity < cart_item.product.stock %}
                             <a href="{% url 'add_cart' cart_item.product.id %}" class="material-icons cart-icon">add_shopping_cart</a>
-                            <a href="#" class="material-icons cart-icon">remove_circle_outline</a>
-                            <a href="#" class="material-icons cart-icon">delete</a>
+                            {% endif %}
+                            <a href="{% url 'cart_remove' cart_item.product.id %}" class="material-icons cart-icon">remove_circle_outline</a>
+                            <a href="{% url 'cart_remove_product' cart_item.product.id %}" class="material-icons cart-icon">delete</a>
                         </td>
-                        {% else %}
-                        <td>
-                            <a href="#" class="material-icons cart-icon">remove_circle_outline</a>
-                            <a href="#" class="material-icons cart-icon">delete</a>
-                        </td>
-                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>

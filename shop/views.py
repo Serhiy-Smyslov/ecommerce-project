@@ -33,6 +33,7 @@ def product(request, category_slug, product_slug):
     })
 
 
+# SHOP CART
 def _cart_id(request):
     """Check user session and return its key."""
     cart = request.session.session_key
@@ -51,13 +52,14 @@ def add_cart(request, product_id):
         cart.save()
     try:
         cart_item = CartItem.objects.get(product=product, cart=cart)
-        cart_item.quantity += 1
+        if cart_item.quantity < cart_item.product.stock:
+            cart_item.quantity += 1
         cart_item.save()
     except CartItem.DoesNotExist:
         cart_item = CartItem.objects.create(product=product, quantity=1,
                                             cart=cart)
         cart_item.save()
-    return redirect('cart_detail')  # Redirect on next function
+    return redirect('cart_detail')  # Redirect on cart_detail function
 
 
 def cart_detail(request, counter=0, total=0, card_id=None):
@@ -77,3 +79,28 @@ def cart_detail(request, counter=0, total=0, card_id=None):
         'total': total,
         'counter': counter,
     })
+
+
+def cart_remove(request, product_id):
+    """Reduce or remove one element from user cart."""
+    cart = Cart.objects.get(cart_id=_cart_id(request))
+    product = get_object_or_404(Product, id=product_id)
+    cart_item = CartItem.objects.get(product=product, cart=cart)
+
+    if cart_item.quantity > 1:  # reduces quantity if > 1 else delete product
+        cart_item.quantity -= 1
+        cart_item.save()
+    else:
+        cart_item.delete()
+
+    return redirect('cart_detail')
+
+
+def cart_remove_product(request, product_id):
+    """Remove element from user cart."""
+    cart = Cart.objects.get(cart_id=_cart_id(request))
+    product = get_object_or_404(Product, id=product_id)
+    cart_item = CartItem.objects.get(product=product, cart=cart)
+    cart_item.delete()
+
+    return redirect('cart_detail')

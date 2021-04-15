@@ -3,27 +3,28 @@
 {% load static %}
 
 {% block title %}
-    Product
+    Product "{{product.name}}"
 {% endblock %}
 
 {% block content %}
     <div class="container py-4">
         <div class="row mt-5">
             <div class="col-10 mx-auto col-md-6 my-3">
-                <img src="{% static 'images/teddy.png' %}"
+                <img src="{{product.image.url}}">
             </div>
         </div>
     </div>
     <div class="col-10 mx-auto col-md-6 my-3">
         <div>
-            <h1 class="product-title">Teddy Bear</h1>
-            <h5 class="text-info font-italic mb-4">$ 9.99</h5>
+            <h1 class="product-title">{{product.name}}</h1>
+            <h5 class="text-info font-italic mb-4">${{product.price}}</h5>
             <p class="product-desc">Product description</p>
-            <p class="text-justify product-text">loremsfjghsdkjghfdjksghsdljghdfs
-            sfdgkghdsljhfdgjksfhgldfhsgjfshgjsdhgdjsfkghlsfjghjdghdsjfghlfds
-            fsdgkfdsgjshdfgkjhdsgjshgjfdhsgdjfhgjsfhjhsgsfjdghsdljghsldgjfs
-            fsdkglfjdgklfhsdglkfgdsjfdg;jfkdsljgdfskg;sdg;dsjdsljgskjdfskjsdf</p>
+            <p class="text-justify product-text">{{product.description}}</p>
+            {% if product.stock <= 0 %}
             <p class="text-justify product-text">Out of stock</p>
+            {% else %}
+            <a href="#">Add To Cart</a>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

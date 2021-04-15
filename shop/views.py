@@ -20,10 +20,14 @@ def home(request, category_slug=None):
 
 def product(request, category_slug, product_slug):
     try:
-        product = Product.objects.get(category__slug=category_slug,
+        shop_product = Product.objects.get(category__slug=category_slug,
             slug=product_slug)
     except Exception as e:
         raise e
     return render(request, 'product.html', {
-        'product': product,
+        'product': shop_product,
     })
+
+
+def cart(request):
+    return render(request, 'cart.html')

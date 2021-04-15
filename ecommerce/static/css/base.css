@@ -20,3 +20,6 @@ body{
 .product-text{
     padding-right: 20px;
 }
+.links{
+    text-decoration: none;
+}

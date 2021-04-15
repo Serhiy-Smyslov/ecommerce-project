@@ -6,11 +6,10 @@
             <li class="nav-item dropdown">
                 <a class="nav-link text-light font-weight-bold text-uppercase px-3 dropdown-toggle"  data-toggle="dropdown" href="">Categories</a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Category1</a>
-                    <a class="dropdown-item" href="#">Category2</a>
-                    <a class="dropdown-item" href="#">Category3</a>
-                    <a class="dropdown-item" href="#">Category4</a>
-                    <a class="dropdown-item" href="#">Category5</a>
+                    <a class="dropdown-item" href="{% url 'home' %}">All products</a>
+                    {% for category in links %}
+                    <a class="dropdown-item" href="{{category.get_url}}">{{category.name}}</a>
+                    {% endfor %}
                 </div>
             </li>
             <li class="nav-item"><a class="nav-link text-light font-weight-bold text-uppercase px-3" href="#">Contacts</a></li>

@@ -47,3 +47,33 @@ class Product(models.Model):
     def get_url(self):
         return reverse('product_detail', args=[self.category.slug,
                                                self.slug])
+
+
+class Cart(models.Model):
+    """Save information about user cart on platform."""
+    cart_id = models.CharField(max_length=250, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['date_added',]
+        db_table = 'Cart'
+
+    def __str__(self):
+        return self.cart_id
+
+
+class CartItem(models.Model):
+    """Information about one item in user cart."""
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'CartItem'
+
+    def __str__(self):
+        return self.product.name
+
+    def sub_total(self):
+        return self.product.price * self.quantity

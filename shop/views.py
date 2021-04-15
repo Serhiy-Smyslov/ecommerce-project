@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Product, Cart, CartItem
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User, Group
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, authenticate
 from .formes import SingUpForm
 
 
@@ -64,7 +66,7 @@ def add_cart(request, product_id):
     return redirect('cart_detail')  # Redirect on cart_detail function
 
 
-def cart_detail(request, counter=0, total=0, card_id=None):
+def cart_detail(request, counter=0, total=0, cart_id=None):
     """Get detail about client order."""
     try:
         cart = Cart.objects.get(cart_id=_cart_id(request))
@@ -110,7 +112,8 @@ def cart_remove_product(request, product_id):
 
 # USER
 def sing_up_view(request):
-    if request.path == 'POST':
+    """Registration for user in system."""
+    if request.method == 'POST':
         form = SingUpForm(request.POST)
         if form.is_valid():
             form.save()

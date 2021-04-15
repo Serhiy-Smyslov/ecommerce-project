@@ -132,7 +132,7 @@ STATIC_URL = '/static/'
 
 # Media files
 
-MEDIA_ROOT = BASE_DIR / 'media', 'static'
+MEDIA_ROOT = BASE_DIR / 'media' / 'static'
 
 MEDIA_URL = '/media/'
 
